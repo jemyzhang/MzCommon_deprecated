@@ -56,3 +56,23 @@ private:
 	bool _bupdate;	//设置值后才需要更新
 };
 
+/////////////////////////////////
+//应用程序配置
+class AppConfigIni
+{
+public:
+	AppConfigIni(LPTSTR iniFile = NULL){
+		SetupIniPath(iniFile);
+		CreateIni();
+		InitIniKey();
+	}
+protected:
+	void SetupIniPath(LPTSTR iniFile = NULL);
+	void CreateIni();
+	virtual void InitIniKey();
+public:
+	//config版本信息
+	MzConfig IniConfigVersion;
+private:
+	wchar_t ini_path[MAX_PATH];
+};

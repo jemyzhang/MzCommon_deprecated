@@ -35,3 +35,30 @@ void MzConfig::InitKey(TCHAR * mainKey, TCHAR * subKey, DWORD defaultVal){
 		IniReadInt(_mainKey,_subKey,&_value,gs_inifile);
 	}
 }
+
+///////////////////////////////////////////
+
+void AppConfigIni::SetupIniPath(LPTSTR iniFile){
+	//setup path
+	wchar_t currpath[128];
+	if(File::GetCurrentPath(currpath)){
+		if(iniFile){
+			wsprintf(ini_path,L"%s\\%s",currpath,iniFile);
+		}else{
+			wsprintf(ini_path,L"%s\\config.ini",currpath);
+		}
+	}else{
+		wsprintf(ini_path,L"config.ini");
+	}
+	gs_inifile = ini_path;
+}
+
+void AppConfigIni::CreateIni(){
+	if(!File::FileExists(ini_path)){
+		IniCreateFile(ini_path);
+	}
+}
+
+void AppConfigIni::InitIniKey(){
+	IniConfigVersion.InitKey(L"Config",L"iniVersion",100);
+}
