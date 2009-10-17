@@ -18,6 +18,8 @@ class MzCommonC
 {
 public:
 	static void newstrcpy(wchar_t** pdst,const wchar_t* src, size_t nsize = 0);
+    //去除字符串中特定的字符
+	static wchar_t* removeSpecStr(wchar_t* sStr, wchar_t* dStr);
 	//remove LF to "\n"
 	static wchar_t* removeWrap(wchar_t* dst, wchar_t* src);
 	//restore "\n" "\r" to LF
@@ -151,7 +153,41 @@ public:
 	//获取一个月的天数
 	static int getDays(int year, int month);
 	static int checkDate(int year,int month, int day);
-	//0: equal 1: large -1: small
+    static int compareDateTime(SYSTEMTIME tm1, SYSTEMTIME tm2){
+        int nRet = 0;
+        if(tm1.wYear > tm2.wYear){
+            nRet += 32;
+        }else if(tm1.wYear < tm2.wYear){
+            nRet -= 32;
+        }
+        if(tm1.wMonth > tm2.wMonth){
+            nRet += 16;
+        }else if(tm1.wMonth < tm2.wMonth){
+            nRet -= 16;
+        }
+        if(tm1.wDay > tm2.wDay){
+            nRet += 8;
+        }else if(tm1.wDay < tm2.wDay){
+            nRet -= 8;
+        }
+        if(tm1.wHour > tm2.wHour){
+            nRet += 4;
+        }else if(tm1.wHour < tm2.wHour){
+            nRet -= 4;
+        }
+        if(tm1.wMinute > tm2.wMinute){
+            nRet += 2;
+        }else if(tm1.wMinute < tm2.wMinute){
+            nRet -= 2;
+        }
+        if(tm1.wSecond > tm2.wSecond){
+            nRet += 1;
+        }else if(tm1.wYear < tm2.wYear){
+            nRet -= 1;
+        }
+        return nRet;
+    }
+    //0: equal 1: large -1: small
 	static int compareDate(SYSTEMTIME tm1, SYSTEMTIME tm2){
 		if(tm1.wYear > tm2.wYear) return 1;
 		if((tm1.wYear == tm2.wYear) &&
