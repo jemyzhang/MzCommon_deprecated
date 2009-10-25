@@ -13,6 +13,7 @@ typedef enum TextEncode{
 
 #define LOADIMAGE(nID)	ImagingHelper::GetImageObject(ImgresHandle,nID)
 #define LOADSTRING(uID)	MzLoadString(uID,LangresHandle)
+#define MZFC_WM_MESSAGE_QUIT	MZFC_WM_MESSAGE+0x100
 
 class MzCommonC
 {
