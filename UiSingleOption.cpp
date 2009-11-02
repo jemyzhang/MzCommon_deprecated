@@ -90,7 +90,6 @@ LRESULT Ui_SingleOptionWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lPa
                     int nIndex = m_OptionList.CalcIndexOfPos(x, y);
                     m_OptionList.SetSelectedIndex(nIndex);
                     m_OptionList.Invalidate();
-                    m_OptionList.Update();
                 }
                 return 0;
             }
