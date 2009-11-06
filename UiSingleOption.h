@@ -11,6 +11,9 @@
 // include the MZFC library header file
 #include <mzfc_inc.h>
 #include <list>
+#include "UiImage.h"
+
+//form height = 170 * (n+1)
 
 #define MZ_MW_TEXT_EDITED MZFC_WM_MESSAGE+0x80
 
@@ -39,8 +42,9 @@ public:
 	~Ui_SingleOptionWnd(void);
 public:
 	UiBG m_bg;
+    UiImage m_splitter_top;
 	UiSelectionList m_OptionList;
-	UiButton m_BtnOK;
+//	UiButton m_BtnOK;
 	UiButton m_BtnCancel;
     UiStatic m_Title;
 public:
@@ -63,6 +67,24 @@ public:
         return m_OptionList.GetItem(nIndex)->Text.C_Str();
     }
     void SetTitleText(LPTSTR title);
+    void PaintWin(HDC hdc, RECT* prcUpdate = NULL){
+        if(bUpdateBgWin == TRUE){
+            bUpdateBgWin = FALSE;
+            bgWin = ::ScreenSnapshot();
+        }
+		RECT rectWin = {0,0,0,0};
+		rectWin.right = this->GetWidth();
+		rectWin.bottom = this->GetHeight();
+        ::BitmapTransBlt(hdc,&rectWin,bgWin,&rectCopy,RGB(128,128,128));
+        CMzWndEx::PaintWin(hdc,prcUpdate);
+    }
+    virtual BOOL Create(int xPos, int yPos, int width, int height, HWND hwndParent=NULL, int uID = NULL, DWORD style=WS_CHILD, DWORD exstyle=0){
+        rectCopy.left = xPos;
+        rectCopy.top = yPos;
+        rectCopy.right = xPos + width;
+        rectCopy.bottom = yPos + height;
+        return CMzWndEx::Create(xPos,yPos,width,height,hwndParent,uID,style,exstyle);
+    }
 protected:
     // Initialization of the window (dialog)
     virtual BOOL OnInitDialog();
@@ -73,4 +95,7 @@ protected:
     virtual void OnMzCommand(WPARAM wParam, LPARAM lParam);
 private:
     LPTSTR m_title;
+	HBITMAP bgWin;
+	BOOL bUpdateBgWin;
+	RECT rectCopy;
 };

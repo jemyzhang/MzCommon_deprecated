@@ -4,6 +4,21 @@
 #include <list>
 using std::list;
 
+#ifdef USE_903SDK
+#define U903SDK    1
+#endif
+#ifdef USE_926SDK
+#define U926SDK    1
+#endif
+
+#if (U903SDK & U926SDK)
+#error "Defined USE_926SDK and USE_903SDK"
+#endif
+
+#if !(U903SDK | U926SDK)
+#error "USE_926SDK and USE_903SDK Not Defined"
+#endif
+
 typedef enum TextEncode{
 	ttcAnsi, 
 	ttcUnicode, 
