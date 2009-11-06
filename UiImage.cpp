@@ -5,10 +5,10 @@ using namespace MzCommon;
 void UiImage::PaintWin(HDC hdcDst, RECT* prcWin, RECT* prcUpdate){
     UiWin::PaintWin(hdcDst,prcWin,prcUpdate);
     if(pimg){
-        pimg->Draw(hdcDst,prcWin,true,true);
+        pimg->Draw(hdcDst,prcWin,true,false);
     }
     if(pimgPath){
-        ImagingHelper::DrawImage(hdcDst,prcWin,pimgPath,true,true);
+        ImagingHelper::DrawImage(hdcDst,prcWin,pimgPath,true,false);
     }
 }
 
