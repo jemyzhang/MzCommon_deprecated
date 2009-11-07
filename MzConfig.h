@@ -33,10 +33,11 @@ public:
 	void InitKey(TCHAR * mainKey, TCHAR * subKey, DWORD defaultVal = 0);
 public:
 	DWORD Get() { return _value; }
-	void Set(DWORD v) { 
-		if(_value == v) return;
+	BOOL Set(DWORD v) { 
+		if(_value == v) return FALSE;
 		_value = v; 
 		_bupdate = true;
+		return TRUE;
 	}
 private:
 	//检查配置文件路径以及键值
