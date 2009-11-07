@@ -12,6 +12,7 @@ MZ_IMPLEMENT_DYNAMIC(Ui_SingleOptionWnd)
 Ui_SingleOptionWnd::Ui_SingleOptionWnd(void)
 {
 	bUpdateBgWin = TRUE;
+	m_title = 0;
     C::newstrcpy(&m_title,L"…Ë÷√");
 }
 
