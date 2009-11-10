@@ -14,6 +14,7 @@ Ui_SingleOptionWnd::Ui_SingleOptionWnd(void)
 	bUpdateBgWin = TRUE;
 	m_title = 0;
     C::newstrcpy(&m_title,L"设置");
+	imgSplit_top = 0;
 }
 
 Ui_SingleOptionWnd::~Ui_SingleOptionWnd(void)
@@ -26,6 +27,9 @@ BOOL Ui_SingleOptionWnd::OnInitDialog() {
         return FALSE;
     }
 
+	//load image resource
+	imgSplit_top = 
+		ImagingHelper::GetImageObject(MzGetInstanceHandle(),IDB_COMMON_PNG_OPTION_SPLITTER_H);
     // Then init the controls & other things in the window
 	m_bg.SetPos(0,0,GetWidth(),GetHeight());
 	AddUiWin(&m_bg);
@@ -39,9 +43,7 @@ BOOL Ui_SingleOptionWnd::OnInitDialog() {
 	m_bg.AddChild(&m_Title);
 
     m_splitter_top.SetPos(20,15 + MZM_HEIGHT_SINGLELINE_EDIT,GetWidth() - 40,2);
-    m_splitter_top.setupImage(
-        ImagingHelper::GetImageObject(MzGetInstanceHandle(),IDB_COMMON_PNG_OPTION_SPLITTER_H)
-        );
+    m_splitter_top.setupImage(imgSplit_top);
 	m_bg.AddChild(&m_splitter_top);
 
 	m_OptionList.SetPos(20,20 + MZM_HEIGHT_SINGLELINE_EDIT,GetWidth() - 40,GetHeight() - MZM_HEIGHT_BUTTONEX - 40 - 20 - MZM_HEIGHT_SINGLELINE_EDIT);
@@ -139,11 +141,19 @@ void UiSelectionList::DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcW
     MzDrawText( hdcDst , li->Text.C_Str(), &rcText , DT_VCENTER|DT_CENTER|DT_SINGLELINE|DT_WORD_ELLIPSIS );
 	DeleteObject(hf);
 
-    //draw splitter
-    if(nIndex < GetItemCount() - 1){//最后一行不画
-        RECT rcSplitter = {prcItem->left,prcItem->bottom - 2,prcItem->right,prcItem->bottom};
-	    ImagingHelper* imgSplit = ImagingHelper::GetImageObject(MzGetInstanceHandle(),IDB_COMMON_PNG_OPTION_SPLITTER);
-        imgSplit->Draw(hdcDst,&rcSplitter,true,true);
-    }
+	//draw splitter
+	if(imgSplit){
+		if(nIndex < GetItemCount() - 1){//最后一行不画
+			RECT rcSplitter = {prcItem->left,prcItem->bottom - 2,prcItem->right,prcItem->bottom};
+			ImagingHelper* imgSplit = ImagingHelper::GetImageObject(MzGetInstanceHandle(),IDB_COMMON_PNG_OPTION_SPLITTER);
+			imgSplit->Draw(hdcDst,&rcSplitter,true,true);
+		}
+	}
 
+}
+
+UiSelectionList::UiSelectionList(){
+	imgSplit = 
+		ImagingHelper::GetImageObject(MzGetInstanceHandle(),IDB_COMMON_PNG_OPTION_SPLITTER);
+	if(imgSplit == 0) printf("Load Image Resource failed!!!\n");
 }

@@ -20,9 +20,12 @@
 class UiSelectionList : public UiList
 {
 public:
+	UiSelectionList();
+public:
 	void DrawItem(HDC hdcDst, int nIndex, RECT* prcItem, RECT *prcWin, RECT *prcUpdate);
 private:
 	CMzString preStr;
+	ImagingHelper* imgSplit;
 };
 
 class UiBG : public UiWin
@@ -98,4 +101,7 @@ private:
 	HBITMAP bgWin;
 	BOOL bUpdateBgWin;
 	RECT rectCopy;
+
+	//resource
+	ImagingHelper* imgSplit_top;
 };

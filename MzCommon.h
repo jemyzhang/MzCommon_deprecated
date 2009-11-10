@@ -15,8 +15,10 @@ using std::list;
 #error "Defined USE_926SDK and USE_903SDK"
 #endif
 
+#if 0
 #if !(U903SDK | U926SDK)
 #error "USE_926SDK and USE_903SDK Not Defined"
+#endif
 #endif
 
 typedef enum TextEncode{
@@ -33,6 +35,9 @@ typedef enum TextEncode{
 class MzCommonC
 {
 public:
+	//有长度限制的行字符串复制
+	static void newlinecpy(wchar_t** pdst, const wchar_t* src, size_t nsize = 0);
+	//新建并复制字符串
 	static void newstrcpy(wchar_t** pdst,const wchar_t* src, size_t nsize = 0);
     //去除字符串中特定的字符
 	static wchar_t* removeSpecStr(wchar_t* sStr, wchar_t* dStr);

@@ -89,6 +89,32 @@ int MzCommonDateTime::checkDate(int year,int month, int day)
 	return rc;   
 } 
 
+void MzCommonC::newlinecpy(wchar_t** pdst, const wchar_t* src, size_t nsize){
+	if(*pdst) delete *pdst;
+	wchar_t* newdst;
+	size_t _strlength = lstrlen(src);
+	if(nsize == 0 || nsize > _strlength){
+		nsize = _strlength;
+	}
+
+	newdst = new wchar_t[nsize + 1];
+	int i = 0;
+	for(i = 0; i < nsize; i++){
+		if(src[i] == '\n' || src[i] == '\r'){
+			if(i < nsize - 3){	//变成"xxxx..."省略模式
+				newdst[i++] = '.';
+				newdst[i++] = '.';
+				newdst[i++] = '.';
+			}
+			break;
+		}
+		newdst[i] = src[i];
+	}
+	newdst[i] = '\0';
+
+	*pdst = newdst;
+}
+
 void MzCommonC::newstrcpy(wchar_t** pdst,const wchar_t* src, size_t nsize){
 	if(*pdst) delete *pdst;
 	wchar_t* newdst;
