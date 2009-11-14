@@ -260,6 +260,18 @@
 			Name="sqlite3x"
 			>
 			<File
+				RelativePath=".\sqlite3x\pinyin_sort.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\sqlite3x\pinyin_sort.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sqlite3x\sqlite3x.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sqlite3x\sqlite3x_command.cpp"
 				>
 			</File>

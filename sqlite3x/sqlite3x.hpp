@@ -52,6 +52,7 @@ namespace sqlite3x {
 
 		void encypt(const char* pwd,int len);
 		void decypt(const char* pwd,int len);
+		void createPinyinSearchEngine();
 
 		long long insertid();
 		void setbusytimeout(int ms);

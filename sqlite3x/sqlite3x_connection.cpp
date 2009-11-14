@@ -25,6 +25,7 @@
 
 #include "sqlite3.h"
 #include "sqlite3x.hpp"
+#include "pinyin_sort.h"
 
 namespace sqlite3x {
 
@@ -216,6 +217,12 @@ std::string sqlite3_connection::executeblob(const std::string &sql) {
 std::string sqlite3_connection::executeblob(const std::wstring &sql) {
 	if(!this->db) throw database_error("database is not open");
 	return sqlite3_command(*this, sql).executeblob();
+}
+
+void sqlite3_connection::createPinyinSearchEngine(){
+	if(!this->db) throw database_error("database is not open");
+	unsigned short zName[] = {'p', 'i', 'n', 'y', 'i', 'n', 0};
+	sqlite3_create_collation16(this->db, (const char*)zName, SQLITE_UTF16, 0, pinyin_cmp);
 }
 
 }
