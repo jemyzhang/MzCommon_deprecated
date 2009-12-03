@@ -333,3 +333,37 @@ list<CMzString> MzCommonFile::loadText(TCHAR* filename, TEXTENCODE_t enc){
 	}while(wch != '\0');
 	return lines;
 }
+
+wchar_t* MzCommonSystem::sVersion = 0;
+wchar_t* MzCommonSystem::getVersion(){
+	PLATFORMVERSION pv[4];
+	SystemParametersInfo(SPI_GETPLATFORMVERSION, sizeof(pv), pv, SPIF_UPDATEINIFILE);
+	if(sVersion == 0) sVersion = new wchar_t[50];
+	wsprintf(sVersion, L"%d.%d.%d.%d", pv[1].dwMajor, pv[1].dwMinor, pv[2].dwMajor, pv[2].dwMinor); 
+	return sVersion;
+}
+
+BOOL MzCommonSystem::getVersion(DWORD &Major,DWORD &Minor,DWORD &Major1,DWORD &Minor1){
+	BOOL bRet = FALSE;
+	PLATFORMVERSION pv[4];
+	bRet = SystemParametersInfo(SPI_GETPLATFORMVERSION, sizeof(pv), pv, SPIF_UPDATEINIFILE);
+	if(bRet){
+		Major = pv[1].dwMajor; Minor = pv[1].dwMinor;
+		Major1 = pv[2].dwMajor; Minor1 = pv[2].dwMinor;
+	}
+	return bRet;
+}
+
+BOOL MzCommonSystem::requireVersion(DWORD Major,DWORD Minor,DWORD Major1,DWORD Minor1){
+	BOOL bRet = FALSE;
+	PLATFORMVERSION pv[4];
+	bRet = SystemParametersInfo(SPI_GETPLATFORMVERSION, sizeof(pv), pv, SPIF_UPDATEINIFILE);
+	int nCompare = 0;
+	if(bRet){
+		nCompare += (pv[1].dwMajor >= Major ? 8 : -8);
+		nCompare += (pv[1].dwMinor >= Minor ? 4 : -4);
+		nCompare += (pv[2].dwMajor >= Major1 ? 2 : -2);
+		nCompare += (pv[2].dwMinor >= Minor1 ? 1 : -1);
+	}
+	return (nCompare >= 0);
+}

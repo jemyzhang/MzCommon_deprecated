@@ -4,23 +4,6 @@
 #include <list>
 using std::list;
 
-#ifdef USE_903SDK
-#define U903SDK    1
-#endif
-#ifdef USE_926SDK
-#define U926SDK    1
-#endif
-
-#if (U903SDK & U926SDK)
-#error "Defined USE_926SDK and USE_903SDK"
-#endif
-
-#if 0
-#if !(U903SDK | U926SDK)
-#error "USE_926SDK and USE_903SDK Not Defined"
-#endif
-#endif
-
 typedef enum TextEncode{
 	ttcAnsi, 
 	ttcUnicode, 
@@ -396,8 +379,29 @@ public:
 	static wchar_t* chr2wch(const char* buffer, wchar_t** wBuf);
 };
 
+//系统相关
+typedef struct _PLATFORMVERSION
+{
+    DWORD dwMajor;
+    DWORD dwMinor;
+}PLATFORMVERSION;
+#define SPI_GETPLATFORMVERSION 224
+
+class MzCommonSystem{
+public:
+	//获取版本号字符串
+	static wchar_t* getVersion();
+	//获取版本号数值
+	static BOOL getVersion(DWORD &Major,DWORD &Minor,DWORD &Major1,DWORD &Minor1);
+	//当系统版本号小于需求版本号时，返回false
+	static BOOL requireVersion(DWORD Major,DWORD Minor,DWORD Major1,DWORD Minor1);
+private:
+	static wchar_t* sVersion;
+};
+
 namespace MzCommon {
 	class File : public MzCommonFile {};
 	class DateTime : public MzCommonDateTime {};
 	class C : public MzCommonC { };
+	class MzSystem : public MzCommonSystem { };
 };
