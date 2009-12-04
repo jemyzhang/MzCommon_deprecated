@@ -2,6 +2,38 @@
 #include <fstream>
 using namespace std;
 
+void MzCommonDateTime::TimetToSystemTime( time_t t, LPSYSTEMTIME pst )
+{
+	FILETIME ft;
+	LONGLONG ll = Int32x32To64(t, 10000000) + 116444736000000000;
+	ft.dwLowDateTime = (DWORD) ll;
+	ft.dwHighDateTime = (DWORD)(ll >> 32);
+
+	FileTimeToSystemTime( &ft, pst );
+}
+
+void MzCommonDateTime::TimetToLocalTime( time_t t, LPSYSTEMTIME pst )
+{
+	t = t + 28800;
+	TimetToSystemTime(t,pst);
+}
+
+void MzCommonDateTime::SystemTimeToTimet( SYSTEMTIME st, time_t *pt )
+{
+	FILETIME ft;
+	SystemTimeToFileTime( &st, &ft );
+
+	LONGLONG ll;
+
+	ULARGE_INTEGER ui;
+	ui.LowPart = ft.dwLowDateTime;
+	ui.HighPart = ft.dwHighDateTime;
+
+	ll = ((LONGLONG)ft.dwHighDateTime << 32) + ft.dwLowDateTime;
+
+	*pt = (DWORD)((LONGLONG)(ui.QuadPart - 116444736000000000) / 10000000);
+}
+
 int MzCommonDateTime::getWeekDay(int year,int month, int day){
 	int D,M,Y,A; 
 	D = day; M = month; Y = year;
@@ -360,10 +392,17 @@ BOOL MzCommonSystem::requireVersion(DWORD Major,DWORD Minor,DWORD Major1,DWORD M
 	bRet = SystemParametersInfo(SPI_GETPLATFORMVERSION, sizeof(pv), pv, SPIF_UPDATEINIFILE);
 	int nCompare = 0;
 	if(bRet){
-		nCompare += (pv[1].dwMajor >= Major ? 8 : -8);
-		nCompare += (pv[1].dwMinor >= Minor ? 4 : -4);
-		nCompare += (pv[2].dwMajor >= Major1 ? 2 : -2);
-		nCompare += (pv[2].dwMinor >= Minor1 ? 1 : -1);
+		if(pv[1].dwMajor != Major) 
+			nCompare += (pv[1].dwMajor > Major ? 8 : -8);
+
+		if(pv[1].dwMinor != Minor)
+			nCompare += (pv[1].dwMinor > Minor ? 4 : -4);
+
+		if(pv[2].dwMajor != Major1)
+			nCompare += (pv[2].dwMajor > Major1 ? 2 : -2);
+
+		if(pv[2].dwMinor != Minor1)
+			nCompare += (pv[2].dwMinor > Minor1 ? 1 : -1);
 	}
 	return (nCompare >= 0);
 }

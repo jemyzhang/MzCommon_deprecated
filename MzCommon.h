@@ -75,6 +75,10 @@ public:
 		}while(e < s + ms);
 	}
 
+	static void TimetToSystemTime( time_t t, LPSYSTEMTIME pst );
+	static void TimetToLocalTime( time_t t, LPSYSTEMTIME pst );
+	static void SystemTimeToTimet( SYSTEMTIME st, time_t *pt );
+
 	//获取当前日期
     //返回值:当前系统日期，格式：2009-12-11
 
