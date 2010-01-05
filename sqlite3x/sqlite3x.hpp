@@ -28,8 +28,6 @@
 
 #include <string>
 
-#pragma comment(lib,"libsqlitece_s.lib")
-
 namespace sqlite3x {
 	class sqlite3_connection {
 	private:
