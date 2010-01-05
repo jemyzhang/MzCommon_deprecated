@@ -145,7 +145,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=" /SUBSYSTEM:WINDOWSCE,6.00"
-				OutputFile="$(ProjectDir)\libs\$(ProjectName)s.lib"
+				OutputFile="$(ProjectDir)\libs\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
