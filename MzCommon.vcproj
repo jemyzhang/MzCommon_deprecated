@@ -192,6 +192,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UiIconButton.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UiImage.cpp"
 				>
 			</File>
@@ -227,6 +231,10 @@
 			</File>
 			<File
 				RelativePath=".\MzConfig.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UiIconButton.h"
 				>
 			</File>
 			<File
