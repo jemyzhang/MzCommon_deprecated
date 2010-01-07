@@ -5,7 +5,7 @@ using namespace MzCommon;
 
 UiIconButton::UiIconButton(){
 	m_button.SetPos(0,0,90,90);
-	m_button.SetButtonType(MZC_BUTTON_WHITE_ROUND_BOTH);
+	m_button.SetButtonType(MZC_BUTTON_NONE);
 	m_button.EnableNotifyMessage(true);
 
 	m_text.SetPos(0,90,90,25);
