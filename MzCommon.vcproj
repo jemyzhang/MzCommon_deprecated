@@ -192,6 +192,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UiFileDialogWnd.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UiIconButton.cpp"
 				>
 			</File>
@@ -231,6 +235,10 @@
 			</File>
 			<File
 				RelativePath=".\MzConfig.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UiFileDialogWnd.h"
 				>
 			</File>
 			<File
