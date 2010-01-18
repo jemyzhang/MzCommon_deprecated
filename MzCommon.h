@@ -378,8 +378,6 @@ public:
 			}
 	}
 	static TEXTENCODE_t getTextCode(TCHAR* filename);
-	//按行载入文档
-	static list<CMzString> loadText(TCHAR* file, TEXTENCODE_t enc = ttcAnsi);
 	static wchar_t* chr2wch(const char* buffer, wchar_t** wBuf);
 };
 
